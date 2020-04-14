@@ -1,0 +1,69 @@
+<html>
+
+<head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', {
+            'packages': ['gantt']
+        });
+        google.charts.setOnLoadCallback(drawChart);
+
+        function daysToMilliseconds(days) {
+            return days * 24 * 60 * 60 * 1000;
+        }
+
+        function drawChart() {
+
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Task ID');
+            data.addColumn('string', 'Task Name');
+            data.addColumn('date', 'Start Date');
+            data.addColumn('date', 'End Date');
+            data.addColumn('number', 'Duration');
+            data.addColumn('number', 'Percent Complete');
+            data.addColumn('string', 'Dependencies');
+
+            data.addRows([
+                ['Research', 'Registration',
+                    new Date(2015, 0, 5), new Date(2015, 0, 6), null, 100, null
+                ],
+                ['Write', 'Login',
+                    new Date(2015, 0, 6), new Date(2015, 0, 9), null, 25, 'Research'
+                ],
+                ['add', 'Add Employee',
+                    null, new Date(2015, 0, 10), daysToMilliseconds(2), 20, 'Write'
+                ],
+                ['view', 'View Employee',
+                    null, new Date(2015, 0, 11), daysToMilliseconds(1), 0, 'add'
+                ],
+                ['delete', 'Delete Employee',
+                    null, new Date(2015, 0, 12), daysToMilliseconds(1), 0, 'add,view'
+                ],
+                ['update', 'update Employee',
+                    new Date(2015, 0, 12), null, daysToMilliseconds(3), 0, 'view'
+                ],
+                ['dataa', 'Add Data',
+                    null, new Date(2015, 0, 10), daysToMilliseconds(1), 0, 'Write'
+                ]
+            ]);
+
+            var options = {
+                height: 500,
+
+            };
+
+            var chart = new google.visualization.Gantt(document.getElementById('chart_div'));
+
+            chart.draw(data, options);
+        }
+    </script>
+</head>
+
+<body>
+    <center>
+        <h1>Basic Gantt Chart</h1>
+    </center>
+    <div id="chart_div"></div>
+</body>
+
+</html>
